@@ -16,7 +16,7 @@ public class EmailVerificationController {
     // 이메일로 인증 코드 전송
     @PostMapping("/send-code")
     public ResponseEntity<ApiResponse<String>> sendVerificationCode(@RequestParam String email) {
-        if (email.endsWith("@inha.edu")) { // 이메일 도메인 확인
+        if (email.endsWith("@inha.edu") || email.endsWith("@inha.ac.kr")) { // 이메일 도메인 확인
             emailService.sendVerificationEmail(email);
             ApiResponse<String> response = new ApiResponse<>(true, 1000, "인증 코드가 이메일로 전송되었습니다.");
             return ResponseEntity.ok(response);

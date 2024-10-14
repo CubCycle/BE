@@ -2,10 +2,13 @@ package com.example.cupcycle.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -13,13 +16,28 @@ public class Cafe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cafeId;
+    private int cafeId;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
     private Integer availableCups;
+
+    @Enumerated(EnumType.STRING)
+    private CafeStatus status;
+
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    private Timestamp updatedAt;
+
+    private Timestamp deletedAt;
+
+    public enum CafeStatus {
+        AVAILABLE, EMPTY
+    }
 
 
 }
