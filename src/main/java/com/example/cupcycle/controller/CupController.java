@@ -23,7 +23,7 @@ public class CupController {
     @PostMapping("/borrow")
     public ResponseEntity<ApiResponse<String>> borrowCup(@RequestParam int cafeId, @RequestParam int studentId,
                                                          @RequestParam int cupId) {
-        //컵 1회 사용당 carbon_reduction을 29g으로 측정하여, 인자로 29를 줌
+        //컵 1회 사용당 carbon_reduction을 29g으로 측정하여, kg으로 변환하여, 인자로 0.029를 줌
         ApiResponse<String> response = cupService.borrowCup(cafeId, studentId, cupId, 0.029);
         return ResponseEntity.status(response.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(response);
     }

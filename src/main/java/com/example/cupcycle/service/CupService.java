@@ -53,12 +53,21 @@ public class CupService {
         studentRepository.save(student);
 
         //3.Cup의 상태 변경 및 borrowTime 갱신
-        cup.setStatus(Cup.CupStatus.BORROWED);
-        cup.setBorrowTime(Timestamp.valueOf(LocalDateTime.now()));
-        cupRepository.save(cup);
+        //Cup이 Available 상태가 아니면 빌릴 수 없음
+        if(cup.getStatus() == Cup.CupStatus.AVAILABLE)
+        {
+            cup.setStatus(Cup.CupStatus.BORROWED);
+            cup.setBorrowTime(Timestamp.valueOf(LocalDateTime.now()));
+            cupRepository.save(cup);
 
-        ApiResponse<String> response = new ApiResponse<>(true, 1000, "대여가 완료되었습니다.");
-        return response;
+            ApiResponse<String> response = new ApiResponse<>(true, 1000, "대여가 완료되었습니다.");
+            return response;
+        }
+        else
+        {
+            ApiResponse<String> response = new ApiResponse<>(false, 6003, "사용 가능한 컵이 아닙니다.");
+            return response;
+        }
     }
 
     @Transactional
