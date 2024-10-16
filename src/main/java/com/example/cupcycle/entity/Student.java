@@ -38,7 +38,7 @@ public class Student {
     private Integer cupCount; // 사용한 컵 개수
 
     @Column(nullable = false)
-    private Integer carbonReduction; // 절감한 탄소량
+    private double carbonReduction; // 절감한 탄소량
 
     @CreationTimestamp
     private Timestamp createdAt; // 생성 시각
