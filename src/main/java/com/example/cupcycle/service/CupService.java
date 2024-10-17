@@ -87,4 +87,29 @@ public class CupService {
         return new ApiResponse<>(true, 1000, "반납이 완료되었습니다.");
     }
 
+    @Transactional
+    public ApiResponse<String> updateCupStatusAndReward(int cupId)
+    {
+        Cup cup = cupRepository.findById(cupId).orElse(null);
+
+        if(cup == null)
+        {
+            return new ApiResponse<>(false, 7001, "컵을 찾을 수 없습니다.");
+        }
+        if(cup.getStatus() != Cup.CupStatus.RETURNED) {
+            return new ApiResponse<>(false, 7002, "컵의 상태가 returned가 아닙니다.");
+        }
+
+        //컵의 상태를 available로 변경
+        cup.setStatus(Cup.CupStatus.AVAILABLE);
+        cupRepository.save(cup);
+
+        //학생의 보상 포인트 증가
+        Student student = cup.getStudent();
+        student.setReward(student.getReward()+100);
+        studentRepository.save(student);
+
+        return new ApiResponse<>(true, 1000, "컵 상태와 학생 보상이 성공적으로 업데이트되었습니다.");
+    }
+
 }

@@ -3,7 +3,6 @@ package com.example.cupcycle.controller;
 
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.CupService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +33,12 @@ public class CupController {
             @RequestParam int returnStationId) {
 
         ApiResponse<String> response = cupService.returnCup(cupId, returnStationId);
+        return ResponseEntity.status(response.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @PostMapping("/updateCupStatus")
+    public ResponseEntity<ApiResponse<String>> updateCupStatusAndReward(@RequestParam int cupId) {
+        ApiResponse<String> response = cupService.updateCupStatusAndReward(cupId);
         return ResponseEntity.status(response.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(response);
     }
 
