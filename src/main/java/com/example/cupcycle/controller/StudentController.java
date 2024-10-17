@@ -4,6 +4,7 @@ import com.example.cupcycle.entity.Student;
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,6 +74,23 @@ public class StudentController {
         } else {
             ApiResponse<Map<String, Object>> response = new ApiResponse<>(false, 4006, "학생 정보를 찾을 수 없습니다.");
             return ResponseEntity.status(404).body(response);
+        }
+    }
+
+    //학생의 리워드 조회
+    @GetMapping("/{id}/reward")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getStudentRewards(@PathVariable int id) {
+        Integer reward = studentService.getStudentRewardById(id);
+        if (reward == null) {
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>(false, 4006, "학생 정보를 찾을 수 없습니다.");
+            return ResponseEntity.status(404).body(response);
+        }
+        else {
+            Map<String, Object> rewardData = new HashMap<>();
+            rewardData.put("reward", reward);
+
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>(true, 1000, "리워드 조회 성공", rewardData);
+            return ResponseEntity.ok(response);
         }
     }
 

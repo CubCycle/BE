@@ -37,5 +37,12 @@ public class StudentService {
         return studentRepository.findByEmail(email);
     }
 
+    //학생의 id로 리워드 조회
+    public Integer getStudentRewardById(int id) {
+        return studentRepository.findById(id)
+                .map(Student::getReward)
+                .orElse(null);
+    }
+
 }
 
