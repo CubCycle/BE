@@ -55,9 +55,9 @@ public class StudentController {
     }
 
     // 마이페이지 조회 API
-    @GetMapping("/mypage")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> getMyPage(@RequestParam String email) {
-        Optional<Student> student = studentService.findStudentByEmail(email);
+    @GetMapping("/{id}/mypage")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getMyPage(@PathVariable int id) {
+        Optional<Student> student = studentService.findStudentById(id);
 
         if (student.isPresent()) {
             Student s = student.get();

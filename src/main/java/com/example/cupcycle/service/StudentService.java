@@ -32,9 +32,14 @@ public class StudentService {
         return studentRepository.existsByEmail(email);
     }
 
-    // 이메일로 학생 찾기 메서드
+    // 학생 id로 학생 찾기 메서드
+    public Optional<Student> findStudentById(int id) {
+        return studentRepository.findStudentByStudentId(id);
+    }
+
+    //학생 이메일로 학생 찾기 메서드(로그인에서 사용)
     public Optional<Student> findStudentByEmail(String email) {
-        return studentRepository.findByEmail(email);
+        return studentRepository.findStudentByemail(email);
     }
 
     //학생의 id로 리워드 조회
