@@ -21,6 +21,4 @@ public class CafeService {
     public Optional<Cafe> findCafeByName(String name) {
         return cafeRepository.findByName(name);
     }
-
-
 }

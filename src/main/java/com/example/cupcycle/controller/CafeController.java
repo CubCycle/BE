@@ -39,13 +39,4 @@ public class CafeController {
                 });
 
     }
-
-
-
-
-
-
-
-
-
 }

@@ -48,6 +48,19 @@ public class Student {
 
     private Timestamp deletedAt; // 삭제 시각
 
+    //사용한 컵 개수를 1개 증가시킴
+    public void increaseCupCount() {
+        this.cupCount++;
+    }
+
+    public void increaseCarbonReduction(double carbonReduction) {
+        this.carbonReduction += carbonReduction;
+    }
+
+    public void increaseReward(int reward) {
+        this.reward += reward;
+    }
+
 
 
 

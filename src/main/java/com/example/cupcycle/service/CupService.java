@@ -47,12 +47,12 @@ public class CupService {
             ApiResponse<String> response = new ApiResponse<>(false, 6001, "대여 가능한 컵이 없습니다.");
             return response;
         }
-        cafe.setAvailableCups(cafe.getAvailableCups() - 1);
+        cafe.decreaseAvailableCups();
         cafeRepository.save(cafe);
 
         //2. Student의 cupCount 증가 및 carbonReduction 증가
-        student.setCupCount(student.getCupCount() + 1);
-        student.setCarbonReduction(student.getCarbonReduction() + carbonIncrease);
+        student.increaseCupCount();
+        student.increaseCarbonReduction(carbonIncrease);
         studentRepository.save(student);
 
         //3.Cup의 상태 변경 및 borrowTime 갱신
@@ -81,7 +81,7 @@ public class CupService {
         cupRepository.save(cup);
 
         // 2. ReturnStation의 current_cup 증가
-        returnStation.setCurrent_cup(returnStation.getCurrent_cup() + 1);
+        returnStation.increaseCurrentCup();
         returnStationRepository.save(returnStation);
 
         return new ApiResponse<>(true, 1000, "반납이 완료되었습니다.");
@@ -106,10 +106,9 @@ public class CupService {
 
         //학생의 보상 포인트 증가
         Student student = cup.getStudent();
-        student.setReward(student.getReward()+100);
+        student.increaseReward(100);
         studentRepository.save(student);
 
         return new ApiResponse<>(true, 1000, "컵 상태와 학생 보상이 성공적으로 업데이트되었습니다.");
     }
-
 }
