@@ -2,15 +2,17 @@ package com.example.cupcycle.service;
 
 import com.example.cupcycle.entity.Student;
 import com.example.cupcycle.repository.StudentRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class StudentService {
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public void registerStudent(String name, String email, String password) {
         if (password.length() < 8) {

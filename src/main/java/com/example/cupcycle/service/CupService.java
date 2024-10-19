@@ -10,6 +10,7 @@ import com.example.cupcycle.repository.CupRepository;
 import com.example.cupcycle.repository.ReturnStationRepository;
 import com.example.cupcycle.repository.StudentRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +18,16 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class CupService {
-
-    @Autowired
-    private CafeRepository cafeRepository;
-    @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
-    private CupRepository cupRepository;
-    @Autowired
-    private ReturnStationRepository returnStationRepository;
+    private static final double CARBON_INCREASE = 0.029;
+    private final CafeRepository cafeRepository;
+    private final StudentRepository studentRepository;
+    private final CupRepository cupRepository;
+    private final ReturnStationRepository returnStationRepository;
 
     @Transactional
-    public ApiResponse<String> borrowCup(int cafeId, int studentId, int cupId, double carbonIncrease)
+    public ApiResponse<String> borrowCup(int cafeId, int studentId, int cupId)
     {
         Cafe cafe = cafeRepository.findById(cafeId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 카페를 찾을 수 없습니다."));
@@ -52,7 +50,7 @@ public class CupService {
 
         //2. Student의 cupCount 증가 및 carbonReduction 증가
         student.increaseCupCount();
-        student.increaseCarbonReduction(carbonIncrease);
+        student.increaseCarbonReduction(CARBON_INCREASE);
         studentRepository.save(student);
 
         //3.Cup의 상태 변경 및 borrowTime 갱신

@@ -4,6 +4,7 @@ package com.example.cupcycle.controller;
 import com.example.cupcycle.entity.Cafe;
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.CafeService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/cafe")
 @RequiredArgsConstructor
 public class CafeController {
-    @Autowired
-    private CafeService cafeService;
+    private final CafeService cafeService;
 
     @GetMapping("/login")
     public ResponseEntity<ApiResponse<Cafe>> loginByNameAndCode(@RequestParam String name, @RequestParam int adminCode) {

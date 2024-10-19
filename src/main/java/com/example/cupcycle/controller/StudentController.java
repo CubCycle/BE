@@ -3,6 +3,8 @@ package com.example.cupcycle.controller;
 import com.example.cupcycle.entity.Student;
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.StudentService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/students")
+@RequiredArgsConstructor
 public class StudentController {
-    @Autowired
-    private StudentService studentService;
+    private final StudentService studentService;
 
     // 로그인 API
     @PostMapping("/login")

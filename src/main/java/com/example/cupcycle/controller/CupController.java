@@ -3,6 +3,7 @@ package com.example.cupcycle.controller;
 
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.CupService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/cup")
 
+@RequiredArgsConstructor
 public class CupController {
-
-    @Autowired
-    private CupService cupService;
+    private final CupService cupService;
 
     @PostMapping("/borrow")
     public ResponseEntity<ApiResponse<String>> borrowCup(@RequestParam int cafeId, @RequestParam int studentId,
                                                          @RequestParam int cupId) {
-        //컵 1회 사용당 carbon_reduction을 29g으로 측정하여, kg으로 변환하여, 인자로 0.029를 줌
-        ApiResponse<String> response = cupService.borrowCup(cafeId, studentId, cupId, 0.029);
+
+        ApiResponse<String> response = cupService.borrowCup(cafeId, studentId, cupId);
         return ResponseEntity.status(response.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(response);
     }
 
