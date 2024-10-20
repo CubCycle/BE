@@ -40,10 +40,6 @@ public class PurchaseService {
             throw new RuntimeException("리워드 포인트가 부족합니다.");
         }
 
-        // 리워드 차감
-        student.setReward(student.getReward() - productPrice);
-        studentRepository.save(student);
-
         // 구매 이력 생성
         PurchaseHistory purchaseHistory = PurchaseHistory.builder()
                 .student(student)
