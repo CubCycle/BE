@@ -37,4 +37,20 @@ public class PurchaseController {
                     .body(new ApiResponse<>(false,6001, e.getMessage()));
         }
     }
+
+    /*
+     * 상품 구매 수락
+     */
+    @PostMapping("/acceptPurchase")
+    public ResponseEntity<ApiResponse<Void>> acceptPurchase(
+            @RequestParam int purchaseHistoryId) {
+        try {
+            purchaseService.acceptPurchase(purchaseHistoryId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>(true,200, "구매가 성공적으로 수락되었습니다.", null));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>(false,6001, e.getMessage()));
+        }
+    }
 }
