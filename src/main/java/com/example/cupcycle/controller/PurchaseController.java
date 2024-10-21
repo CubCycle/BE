@@ -6,10 +6,9 @@ import com.example.cupcycle.service.PurchaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,5 +47,15 @@ public class PurchaseController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse<>(false,6001, e.getMessage()));
         }
+    }
+
+    /*
+     * 상품 구매 신청 목록 조회
+     */
+    @GetMapping("/getPurchaseHistory")
+    public ResponseEntity<ApiResponse<List<PurchaseHistory>>> getPurchaseHistory() {
+        List<PurchaseHistory> purchaseHistoryList = purchaseService.getPurchaseHistory();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponse<>(true,200, "구매 신청 목록 조회에 성공하였습니다.", purchaseHistoryList));
     }
 }
