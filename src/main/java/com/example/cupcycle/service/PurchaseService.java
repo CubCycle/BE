@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,6 @@ public class PurchaseService {
         if (student.getReward() < productPrice) {
             throw new RuntimeException("리워드 포인트가 부족합니다.");
         }
-
 
         // 구매 이력 생성
         PurchaseHistory purchaseHistory = PurchaseHistory.builder()
@@ -76,5 +76,12 @@ public class PurchaseService {
 
         purchaseHistory.setAccepted(true);
         purchaseHistoryRepository.save(purchaseHistory);
+    }
+
+    /*
+     * 상품 신청 목록 조회
+     */
+    public List<PurchaseHistory> getPurchaseHistory() {
+        return purchaseHistoryRepository.findAll();
     }
 }
