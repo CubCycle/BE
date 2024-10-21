@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface CafeRepository extends JpaRepository<Cafe, Integer> {
     Optional<Cafe> findByName(String name);
+    Cafe findByCafeId(int cafeId);
 }

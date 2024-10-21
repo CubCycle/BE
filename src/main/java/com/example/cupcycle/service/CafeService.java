@@ -21,4 +21,17 @@ public class CafeService {
     public Optional<Cafe> findCafeByName(String name) {
         return cafeRepository.findByName(name);
     }
+
+    /*
+     * 카페의 다회용컵 재고 상태 조회
+     */
+    public int getAvailableCups(int id) {
+        Cafe cafe = cafeRepository.findByCafeId(id);
+
+        if (cafe == null) {
+            return 0;
+        }
+
+        return cafe.getAvailableCups();
+    }
 }
