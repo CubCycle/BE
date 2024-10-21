@@ -23,7 +23,7 @@ public class ReturnStation {
     private String location;
 
     @Column(nullable = false)
-    private int current_cup;
+    private int currentCup;
 
     @Enumerated(EnumType.STRING)
     private ReturnStationStatus status;
