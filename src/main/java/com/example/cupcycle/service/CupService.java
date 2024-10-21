@@ -11,7 +11,6 @@ import com.example.cupcycle.repository.ReturnStationRepository;
 import com.example.cupcycle.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -21,6 +20,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class CupService {
     private static final double CARBON_INCREASE = 0.029;
+    private static final int REWARD = 100;
     private final CafeRepository cafeRepository;
     private final StudentRepository studentRepository;
     private final CupRepository cupRepository;
@@ -37,13 +37,12 @@ public class CupService {
                 .orElseThrow(()->new IllegalArgumentException("해당 컵을 찾을 수 없습니다."));
 
         if (!cup.getStatus().equals(Cup.CupStatus.AVAILABLE)) {
-            return new ApiResponse<>(false, 6002, "해당 컵은 반납 가능한 상태가 아닙니다.");
+            return new ApiResponse<>(false, 6002, "해당 컵은 대여 가능한 상태가 아닙니다.");
         }
 
         // 1. Cafe의 availableCup 감소
         if(cafe.getAvailableCups() <=0) {
-            ApiResponse<String> response = new ApiResponse<>(false, 6001, "대여 가능한 컵이 없습니다.");
-            return response;
+            return new ApiResponse<>(false, 6001, "대여 가능한 컵이 없습니다.");
         }
         cafe.decreaseAvailableCups();
         cafeRepository.save(cafe);
@@ -54,12 +53,9 @@ public class CupService {
         studentRepository.save(student);
 
         //3.Cup의 상태 변경 및 borrowTime 갱신
-        cup.setStatus(Cup.CupStatus.BORROWED);
-        cup.setBorrowTime(Timestamp.valueOf(LocalDateTime.now()));
-        cupRepository.save(cup);
+        updateCupStatus(cup, Cup.CupStatus.BORROWED);
 
-        ApiResponse<String> response = new ApiResponse<>(true, 1000, "대여가 완료되었습니다.");
-        return response;
+        return new ApiResponse<>(true, 1000, "대여가 완료되었습니다.");
     }
 
     @Transactional
@@ -74,9 +70,7 @@ public class CupService {
         }
 
         // 1. Cup의 상태 변경 및 returnTime 갱신
-        cup.setStatus(Cup.CupStatus.RETURNED);
-        cup.setReturnTime(Timestamp.valueOf(LocalDateTime.now()));
-        cupRepository.save(cup);
+        updateCupStatus(cup, Cup.CupStatus.RETURNED);
 
         // 2. ReturnStation의 current_cup 증가
         returnStation.increaseCurrentCup();
@@ -99,14 +93,23 @@ public class CupService {
         }
 
         //컵의 상태를 available로 변경
-        cup.setStatus(Cup.CupStatus.AVAILABLE);
-        cupRepository.save(cup);
+        updateCupStatus(cup, Cup.CupStatus.AVAILABLE);
 
         //학생의 보상 포인트 증가
         Student student = cup.getStudent();
-        student.increaseReward(100);
+        student.increaseReward(REWARD);
         studentRepository.save(student);
 
         return new ApiResponse<>(true, 1000, "컵 상태와 학생 보상이 성공적으로 업데이트되었습니다.");
+    }
+
+    private void updateCupStatus(Cup cup, Cup.CupStatus newStatus) {
+        cup.setStatus(newStatus);
+        if (newStatus == Cup.CupStatus.BORROWED) {
+            cup.setBorrowTime(Timestamp.valueOf(LocalDateTime.now()));
+        } else if (newStatus == Cup.CupStatus.RETURNED) {
+            cup.setReturnTime(Timestamp.valueOf(LocalDateTime.now()));
+        }
+        cupRepository.save(cup);
     }
 }

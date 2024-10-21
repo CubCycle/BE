@@ -82,8 +82,8 @@ public class StudentController {
     //학생의 리워드 조회
     @GetMapping("/{id}/reward")
     public ResponseEntity<ApiResponse<Map<String, Object>>> getStudentRewards(@PathVariable int id) {
-        Integer reward = studentService.getStudentRewardById(id);
-        if (reward == null) {
+        Optional<Integer> reward = studentService.getStudentRewardById(id);
+        if (reward.isEmpty()) {
             ApiResponse<Map<String, Object>> response = new ApiResponse<>(false, 4006, "학생 정보를 찾을 수 없습니다.");
             return ResponseEntity.status(404).body(response);
         }

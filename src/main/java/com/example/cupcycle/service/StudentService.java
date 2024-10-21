@@ -2,9 +2,7 @@ package com.example.cupcycle.service;
 
 import com.example.cupcycle.entity.Student;
 import com.example.cupcycle.repository.StudentRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -45,10 +43,9 @@ public class StudentService {
     }
 
     //학생의 id로 리워드 조회
-    public Integer getStudentRewardById(int id) {
+    public Optional<Integer> getStudentRewardById(int id) {
         return studentRepository.findById(id)
-                .map(Student::getReward)
-                .orElse(null);
+                .map(Student::getReward);
     }
 
 }
