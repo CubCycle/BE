@@ -3,7 +3,7 @@ package com.example.cupcycle.controller;
 import com.example.cupcycle.entity.PurchaseHistory;
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.PurchaseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,14 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/purchase")
 public class PurchaseController {
     private final PurchaseService purchaseService;
-
-    @Autowired
-    public PurchaseController(PurchaseService purchaseService) {
-        this.purchaseService = purchaseService;
-    }
 
     /*
     * 상품 구매 신청
