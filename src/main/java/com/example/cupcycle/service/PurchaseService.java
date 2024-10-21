@@ -6,26 +6,18 @@ import com.example.cupcycle.entity.Student;
 import com.example.cupcycle.repository.ProductRepository;
 import com.example.cupcycle.repository.PurchaseHistoryRepository;
 import com.example.cupcycle.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 
 @Service
+@RequiredArgsConstructor
 public class PurchaseService {
     private final StudentRepository studentRepository;
     private final ProductRepository productRepository;
     private final PurchaseHistoryRepository purchaseHistoryRepository;
-
-    @Autowired
-    public PurchaseService(StudentRepository studentRepository,
-                           ProductRepository productRepository,
-                           PurchaseHistoryRepository purchaseHistoryRepository) {
-        this.studentRepository = studentRepository;
-        this.productRepository = productRepository;
-        this.purchaseHistoryRepository = purchaseHistoryRepository;
-    }
 
     @Transactional
     public PurchaseHistory purchaseProduct(int studentId, int productId) {
