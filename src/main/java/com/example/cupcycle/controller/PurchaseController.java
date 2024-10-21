@@ -31,7 +31,7 @@ public class PurchaseController {
         try {
             PurchaseHistory purchaseHistory = purchaseService.purchaseProduct(studentId, productId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>(true,200, "상품 신청이 완료되었습니다.", purchaseHistory));
+                    .body(new ApiResponse<>(true,200, "물품 교환 신청이 완료되었습니다.", purchaseHistory));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse<>(false,6001, e.getMessage()));
