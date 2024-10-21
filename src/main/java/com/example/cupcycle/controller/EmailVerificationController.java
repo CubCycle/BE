@@ -2,16 +2,16 @@ package com.example.cupcycle.controller;
 
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/email")
+@RequiredArgsConstructor
 public class EmailVerificationController {
 
-    @Autowired
-    private EmailService emailService;
+    private final EmailService emailService;
 
     // 이메일로 인증 코드 전송
     @PostMapping("/send-code")

@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
+
 
 @Entity
 @Table(name = "cup")
@@ -31,6 +32,9 @@ public class Cup {
     @ManyToOne
     @JoinColumn(name = "cafeId", nullable = false)
     private Cafe cafe;
+
+    @Column(nullable = false, unique = true)
+    private String qrcode;  // 고유 QR 코드 필드 추가
 
     private Timestamp borrowTime;
 
