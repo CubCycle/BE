@@ -2,15 +2,15 @@ package com.example.cupcycle.service;
 
 import com.example.cupcycle.entity.Student;
 import com.example.cupcycle.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class StudentService {
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public void registerStudent(String name, String email, String password) {
         if (password.length() < 8) {
@@ -32,9 +32,20 @@ public class StudentService {
         return studentRepository.existsByEmail(email);
     }
 
-    // 이메일로 학생 찾기 메서드
+    // 학생 id로 학생 찾기 메서드
+    public Optional<Student> findStudentById(int id) {
+        return studentRepository.findStudentByStudentId(id);
+    }
+
+    //학생 이메일로 학생 찾기 메서드(로그인에서 사용)
     public Optional<Student> findStudentByEmail(String email) {
-        return studentRepository.findByEmail(email);
+        return studentRepository.findStudentByemail(email);
+    }
+
+    //학생의 id로 리워드 조회
+    public Optional<Integer> getStudentRewardById(int id) {
+        return studentRepository.findById(id)
+                .map(Student::getReward);
     }
 
 }

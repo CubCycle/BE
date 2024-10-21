@@ -39,4 +39,8 @@ public class ReturnStation {
     public enum ReturnStationStatus {
         FULL, AVAILABLE;
     }
+
+    public void increaseCurrentCup() {
+        this.current_cup++;
+    }
 }

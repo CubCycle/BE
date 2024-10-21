@@ -3,7 +3,10 @@ package com.example.cupcycle.controller;
 import com.example.cupcycle.entity.Student;
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.StudentService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +16,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/students")
+@RequiredArgsConstructor
 public class StudentController {
-    @Autowired
-    private StudentService studentService;
+    private final StudentService studentService;
 
     // 로그인 API
     @PostMapping("/login")
@@ -54,9 +57,9 @@ public class StudentController {
     }
 
     // 마이페이지 조회 API
-    @GetMapping("/mypage")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> getMyPage(@RequestParam String email) {
-        Optional<Student> student = studentService.findStudentByEmail(email);
+    @GetMapping("/{id}/mypage")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getMyPage(@PathVariable int id) {
+        Optional<Student> student = studentService.findStudentById(id);
 
         if (student.isPresent()) {
             Student s = student.get();
@@ -73,6 +76,23 @@ public class StudentController {
         } else {
             ApiResponse<Map<String, Object>> response = new ApiResponse<>(false, 4006, "학생 정보를 찾을 수 없습니다.");
             return ResponseEntity.status(404).body(response);
+        }
+    }
+
+    //학생의 리워드 조회
+    @GetMapping("/{id}/reward")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getStudentRewards(@PathVariable int id) {
+        Optional<Integer> reward = studentService.getStudentRewardById(id);
+        if (reward.isEmpty()) {
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>(false, 4006, "학생 정보를 찾을 수 없습니다.");
+            return ResponseEntity.status(404).body(response);
+        }
+        else {
+            Map<String, Object> rewardData = new HashMap<>();
+            rewardData.put("reward", reward);
+
+            ApiResponse<Map<String, Object>> response = new ApiResponse<>(true, 1000, "리워드 조회 성공", rewardData);
+            return ResponseEntity.ok(response);
         }
     }
 
