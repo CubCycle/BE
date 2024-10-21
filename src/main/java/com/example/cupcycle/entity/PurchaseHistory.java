@@ -29,4 +29,7 @@ public class PurchaseHistory {
 
     @Column(nullable = false)
     private Timestamp purchaseDate; // 구매 날짜
+
+    @Column(nullable = false)
+    private boolean isAccepted; // 구매 수락 여부
 }
