@@ -19,6 +19,9 @@ public class PurchaseService {
     private final ProductRepository productRepository;
     private final PurchaseHistoryRepository purchaseHistoryRepository;
 
+    /*
+     * 상품 구매 신청
+     */
     @Transactional
     public PurchaseHistory purchaseProduct(int studentId, int productId) {
         Student student = studentRepository.findById(studentId)
