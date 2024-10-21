@@ -24,7 +24,7 @@ public class PurchaseController {
     /*
     * 상품 구매 신청
      */
-    @PostMapping
+    @PostMapping("/requestPurchase")
     public ResponseEntity<ApiResponse<PurchaseHistory>> purchaseProduct(
             @RequestParam int studentId,
             @RequestParam int productId) {
