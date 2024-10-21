@@ -38,7 +38,7 @@ public class Student {
     private Integer cupCount; // 사용한 컵 개수
 
     @Column(nullable = false)
-    private Integer carbonReduction; // 절감한 탄소량
+    private double carbonReduction; // 절감한 탄소량
 
     @CreationTimestamp
     private Timestamp createdAt; // 생성 시각
@@ -47,6 +47,19 @@ public class Student {
     private Timestamp updatedAt; // 수정 시각
 
     private Timestamp deletedAt; // 삭제 시각
+
+    //사용한 컵 개수를 1개 증가시킴
+    public void increaseCupCount() {
+        this.cupCount++;
+    }
+
+    public void increaseCarbonReduction(double carbonReduction) {
+        this.carbonReduction += carbonReduction;
+    }
+
+    public void increaseReward(int reward) {
+        this.reward += reward;
+    }
 
 
 

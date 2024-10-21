@@ -1,6 +1,6 @@
 package com.example.cupcycle.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -10,10 +10,10 @@ import java.util.Map;
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender emailSender;
+    private final JavaMailSender emailSender;
 
     private final Map<String, String> emailVerificationCodes = new HashMap<>(); // 이메일-코드 매핑 저장
 

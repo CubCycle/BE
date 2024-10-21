@@ -39,5 +39,10 @@ public class Cafe {
         AVAILABLE, EMPTY
     }
 
+    //카페의 컵 재고 1 감소
+    public void decreaseAvailableCups() {
+        this.availableCups--;
+    }
+
 
 }

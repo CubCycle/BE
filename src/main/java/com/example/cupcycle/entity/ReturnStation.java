@@ -23,7 +23,7 @@ public class ReturnStation {
     private String location;
 
     @Column(nullable = false)
-    private int current_cup;
+    private int currentCup;
 
     @Enumerated(EnumType.STRING)
     private ReturnStationStatus status;
@@ -38,5 +38,9 @@ public class ReturnStation {
 
     public enum ReturnStationStatus {
         FULL, AVAILABLE;
+    }
+
+    public void increaseCurrentCup() {
+        this.current_cup++;
     }
 }
