@@ -34,7 +34,7 @@ public class PurchaseController {
                     .body(new ApiResponse<>(true,200, "상품 신청이 완료되었습니다.", purchaseHistory));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>(false,6001, "상품 신청이 불가합니다."));
+                    .body(new ApiResponse<>(false,6001, e.getMessage()));
         }
     }
 }
