@@ -6,6 +6,7 @@ import com.example.cupcycle.entity.Student;
 import com.example.cupcycle.repository.ProductRepository;
 import com.example.cupcycle.repository.PurchaseHistoryRepository;
 import com.example.cupcycle.repository.StudentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,19 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 
 @Service
+@RequiredArgsConstructor
 public class PurchaseService {
     private final StudentRepository studentRepository;
     private final ProductRepository productRepository;
     private final PurchaseHistoryRepository purchaseHistoryRepository;
-
-    @Autowired
-    public PurchaseService(StudentRepository studentRepository,
-                           ProductRepository productRepository,
-                           PurchaseHistoryRepository purchaseHistoryRepository) {
-        this.studentRepository = studentRepository;
-        this.productRepository = productRepository;
-        this.purchaseHistoryRepository = purchaseHistoryRepository;
-    }
 
     @Transactional
     public PurchaseHistory purchaseProduct(int studentId, int productId) {
@@ -40,6 +33,7 @@ public class PurchaseService {
             throw new RuntimeException("리워드 포인트가 부족합니다.");
         }
 
+
         // 구매 이력 생성
         PurchaseHistory purchaseHistory = PurchaseHistory.builder()
                 .student(student)
@@ -48,5 +42,37 @@ public class PurchaseService {
                 .build();
 
         return purchaseHistoryRepository.save(purchaseHistory);
+    }
+
+
+    /*
+    * 상품 구매 수락
+    */
+    @Transactional
+    public void acceptPurchase(int purchaseId) {
+        PurchaseHistory purchaseHistory = purchaseHistoryRepository.findById(purchaseId)
+                .orElseThrow(() -> new RuntimeException("구매 이력을 찾을 수 없습니다."));
+
+        // 구매 수락 처리
+        if (purchaseHistory.isAccepted()) {
+            throw new RuntimeException("이미 수락된 구매입니다.");
+        }
+
+        // 학생 정보 가져오기
+        Student student = purchaseHistory.getStudent();
+        Product product = purchaseHistory.getProduct();
+        int cost = product.getPrice();
+
+        // 리워드 차감
+        if (student.getReward() < cost) {
+            throw new RuntimeException("리워드 포인트가 부족합니다.");
+        }
+
+        // 학생 정보 업데이트
+        student.setReward(student.getReward() - cost);
+        studentRepository.save(student);
+
+        purchaseHistory.setAccepted(true);
+        purchaseHistoryRepository.save(purchaseHistory);
     }
 }
