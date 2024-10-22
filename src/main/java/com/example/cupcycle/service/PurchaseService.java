@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +44,44 @@ public class PurchaseService {
                 .build();
 
         return purchaseHistoryRepository.save(purchaseHistory);
+    }
+
+
+    /*
+    * 상품 구매 수락
+    */
+    @Transactional
+    public void acceptPurchase(int purchaseId) {
+        PurchaseHistory purchaseHistory = purchaseHistoryRepository.findById(purchaseId)
+                .orElseThrow(() -> new RuntimeException("구매 이력을 찾을 수 없습니다."));
+
+        // 구매 수락 처리
+        if (purchaseHistory.isAccepted()) {
+            throw new RuntimeException("이미 수락된 구매입니다.");
+        }
+
+        // 학생 정보 가져오기
+        Student student = purchaseHistory.getStudent();
+        Product product = purchaseHistory.getProduct();
+        int cost = product.getPrice();
+
+        // 리워드 차감
+        if (student.getReward() < cost) {
+            throw new RuntimeException("리워드 포인트가 부족합니다.");
+        }
+
+        // 학생 정보 업데이트
+        student.setReward(student.getReward() - cost);
+        studentRepository.save(student);
+
+        purchaseHistory.setAccepted(true);
+        purchaseHistoryRepository.save(purchaseHistory);
+    }
+
+    /*
+     * 상품 신청 목록 조회
+     */
+    public List<PurchaseHistory> getPurchaseHistory() {
+        return purchaseHistoryRepository.findAll();
     }
 }
