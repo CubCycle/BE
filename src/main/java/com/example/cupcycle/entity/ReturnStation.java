@@ -41,6 +41,6 @@ public class ReturnStation {
     }
 
     public void increaseCurrentCup() {
-        this.current_cup++;
+        this.currentCup++;
     }
 }
