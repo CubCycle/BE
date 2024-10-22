@@ -30,11 +30,16 @@ public class PurchaseService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("상품을 찾을 수 없습니다."));
 
+        // 상품 가격
         int productPrice = product.getPrice();
 
         if (student.getReward() < productPrice) {
             throw new RuntimeException("리워드 포인트가 부족합니다.");
         }
+
+        // 학생 정보 업데이트
+        student.setReward(student.getReward() - productPrice);
+        studentRepository.save(student);
 
         // 구매 이력 생성
         PurchaseHistory purchaseHistory = PurchaseHistory.builder()
@@ -59,20 +64,6 @@ public class PurchaseService {
         if (purchaseHistory.isAccepted()) {
             throw new RuntimeException("이미 수락된 구매입니다.");
         }
-
-        // 학생 정보 가져오기
-        Student student = purchaseHistory.getStudent();
-        Product product = purchaseHistory.getProduct();
-        int cost = product.getPrice();
-
-        // 리워드 차감
-        if (student.getReward() < cost) {
-            throw new RuntimeException("리워드 포인트가 부족합니다.");
-        }
-
-        // 학생 정보 업데이트
-        student.setReward(student.getReward() - cost);
-        studentRepository.save(student);
 
         purchaseHistory.setAccepted(true);
         purchaseHistoryRepository.save(purchaseHistory);
