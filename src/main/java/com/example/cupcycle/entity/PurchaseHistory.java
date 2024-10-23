@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
+
 @Entity
 @Table(name = "purchase_history")
 @Data
