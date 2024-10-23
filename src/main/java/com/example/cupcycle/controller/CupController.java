@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/cup")
-
 @RequiredArgsConstructor
 public class CupController {
     private final CupService cupService;

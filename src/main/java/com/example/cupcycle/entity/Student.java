@@ -60,13 +60,4 @@ public class Student {
     public void increaseReward(int reward) {
         this.reward += reward;
     }
-
-
-
-
-
-
-
-
-
 }
