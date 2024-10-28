@@ -39,7 +39,7 @@ jobs:
     
     - name: Create application.properties file from Secrets
       run: |
-        echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./cupcycle/src/main/resources/application.properties
+        echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.properties
     
     - name: Build with Gradle
       run: ./gradlew clean build
