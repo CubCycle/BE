@@ -94,7 +94,7 @@ jobs:
       run: |
         aws --debug deploy create-deployment \
         --application-name cupcycle \  
-        --deployment-group-name coin-group \ 
+        --deployment-group-name cupcycle-group \ 
         --file-exists-behavior OVERWRITE \
         --s3-location bucket=cupcycle,bundleType=zip,key=cupcycle.zip \
         --region ap-northeast-2
