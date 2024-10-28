@@ -39,6 +39,4 @@ public class CupController {
         ApiResponse<String> response = cupService.updateCupStatusAndReward(cupId);
         return ResponseEntity.status(response.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(response);
     }
-
-
 }

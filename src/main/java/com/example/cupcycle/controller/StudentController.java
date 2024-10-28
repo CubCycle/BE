@@ -19,14 +19,14 @@ public class StudentController {
 
     // 로그인 API
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<String>> loginStudent(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<ApiResponse<Integer>> loginStudent(@RequestParam String email, @RequestParam String password) {
         Optional<Student> student = studentService.findStudentByEmail(email);
 
         if (student.isPresent() && student.get().getPassword().equals(password)) {
-            ApiResponse<String> response = new ApiResponse<>(true, 1000, "로그인 성공");
+            ApiResponse<Integer> response = new ApiResponse<>(true, 1000, "로그인 성공", student.get().getStudentId());
             return ResponseEntity.ok(response);
         } else {
-            ApiResponse<String> response = new ApiResponse<>(false, 4004, "이메일 또는 비밀번호가 올바르지 않습니다.");
+            ApiResponse<Integer> response = new ApiResponse<>(false, 4004, "이메일 또는 비밀번호가 올바르지 않습니다.");
             return ResponseEntity.status(404).body(response);
         }
     }
