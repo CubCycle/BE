@@ -39,17 +39,20 @@ jobs:
       run: |
         echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application-prod.properties
     
-    - name: Build with Gradle (Prod Profile)
+    - name: Build with Gradle(Prod Profile)
       run: ./gradlew clean build -Pprod
 
-    # 배포 패키지 준비
-    - name: Prepare Deployment Package
-      run: |
-        mkdir -p deploy
-        cp ./build/libs/*.jar ./deploy  # Jar 파일 위치 확인
-        cp ./appspec.yml ./deploy
-        cp ./scripts/*.sh ./deploy
-        zip -r ./cupcycle.zip ./deploy
+    # 디렉토리 생성
+    - name: Make Directory
+      run: mkdir -p deploy
+        
+    # Jar 파일 복사
+    - name: Copy Jar
+      run: cp ./build/libs/*.jar ./deploy  # Jar 파일 위치를 확인하여 수정
+
+    - name: Make zip file
+      run: zip -r ./cupcycle.zip ./deploy  # zip 파일명은 필요에 따라 수정 가능
+      shell: bash
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -59,17 +62,39 @@ jobs:
         aws-region: ap-northeast-2
 
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./cupcycle.zip s3://${{ env.S3_BUCKET_NAME }}/
+      run: aws s3 cp --region ap-northeast-2 ./cupcycle.zip s3://cupcycle/
+      
+    # appspec.yml 파일 복사
+    - name: Copy appspec.yml
+      run: cp ./appspec.yml ./deploy
 
-    # Deploy 단계
+    # script files 복사
+    - name: Copy script
+      run: cp ./scripts/*.sh ./deploy
+
+    - name: Make zip file
+      run: zip -r ./cupcycle.zip ./deploy
+      shell: bash
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./cupcycle.zip s3://cupcycle/
+# Deploy
     - name: Deploy
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-        aws deploy create-deployment \
-          --application-name cupcycle \
-          --deployment-group-name cupcycle-group \
-          --file-exists-behavior OVERWRITE \
-          --s3-location bucket=${{ env.S3_BUCKET_NAME }},bundleType=zip,key=cupcycle.zip \
-          --region ap-northeast-2
+        aws --debug deploy create-deployment \
+        --application-name cupcycle \
+        --deployment-group-name cupcycle-group \
+        --file-exists-behavior OVERWRITE \
+        --s3-location bucket=cupcycle,bundleType=zip,key=cupcycle.zip \
+        --region ap-northeast-2
+
