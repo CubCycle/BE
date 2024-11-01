@@ -27,7 +27,7 @@ public class Student {
     @Column(nullable = false, length = 50, unique = true)
     private String email; // 이메일
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique=false)
     private String password; // 비밀번호
 
     @Column(nullable = false)
