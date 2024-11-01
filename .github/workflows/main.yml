@@ -31,6 +31,7 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
+        arguments: build
         
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew 
@@ -47,9 +48,29 @@ jobs:
       run: |
         mkdir -p deploy
         cp ./build/libs/*.jar ./deploy  # Jar 파일 위치 확인
-        cp ./appspec.yml ./deploy
-        cp ./scripts/*.sh ./deploy
         zip -r ./cupcycle.zip ./deploy
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./cupcycle.zip s3://${{ env.S3_BUCKET_NAME }}/
+
+    - name: Copy appspec.yml
+      run: cp ./appspec.yml ./deploy
+
+
+    # script files 복사
+    - name: Copy script
+      run: cp ./scripts/*.sh ./deploy
+
+    - name: Make zip file
+      run: zip -r ./cupcycle.zip ./deploy
+      shell: bash
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
