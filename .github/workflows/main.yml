@@ -31,7 +31,6 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
-        arguments: build
         
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew 
