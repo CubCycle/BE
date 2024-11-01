@@ -17,7 +17,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 public class Student {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentId;
