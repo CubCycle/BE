@@ -40,7 +40,7 @@ jobs:
         echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application-prod.properties
     
     - name: Build with Gradle (Prod Profile)
-      run: ./gradlew clean build -Pprod
+      run: SPRING_PROFILES_ACTIVE=prod ./gradlew clean build -Pprod
 
     # 배포 패키지 준비
     - name: Prepare Deployment Package
