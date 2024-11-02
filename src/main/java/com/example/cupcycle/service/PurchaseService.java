@@ -62,13 +62,8 @@ public class PurchaseService {
         PurchaseHistory purchaseHistory = purchaseHistoryRepository.findById(purchaseId)
                 .orElseThrow(() -> new RuntimeException("구매 이력을 찾을 수 없습니다."));
 
-        // 구매 수락 처리
-        if (purchaseHistory.isAccepted()) {
-            throw new RuntimeException("이미 수락된 구매입니다.");
-        }
-
-        purchaseHistory.setAccepted(true);
-        purchaseHistoryRepository.save(purchaseHistory);
+        // 구매 이력 삭제
+        purchaseHistoryRepository.delete(purchaseHistory);
     }
 
     /*
