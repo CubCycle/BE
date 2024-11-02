@@ -72,6 +72,25 @@ public class PurchaseService {
     }
 
     /*
+     * 상품 구매 거절
+     */
+    public void refusePurchase(int purchaseId) {
+        PurchaseHistory purchaseHistory = purchaseHistoryRepository.findById(purchaseId)
+                .orElseThrow(() -> new RuntimeException("구매 이력을 찾을 수 없습니다."));
+
+        // 학생과 상품 정보 가져옴
+        Student student = purchaseHistory.getStudent();
+        Product product = purchaseHistory.getProduct();
+
+        // 학생 리워드 복원
+        student.setReward(student.getReward() + product.getPrice());
+        studentRepository.save(student);
+
+        // 구매 이력 삭제
+        purchaseHistoryRepository.delete(purchaseHistory);
+    }
+
+    /*
      * 상품 신청 목록 조회
      */
 //    public List<PurchaseHistory> getPurchaseHistory() {

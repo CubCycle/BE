@@ -51,6 +51,23 @@ public class PurchaseController {
     }
 
     /*
+    * 상품 구매 거절
+    * */
+    @PostMapping("/refusePurchase")
+    public ResponseEntity<ApiResponse<Void>> refusePurchase(
+            @RequestParam int purchaseHistoryId) {
+        try {
+            purchaseService.refusePurchase(purchaseHistoryId);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponse<>(true,200, "구매가 거절되었습니다.", null));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>(false, 6002, e.getMessage()));
+        }
+    }
+
+
+    /*
      * 상품 구매 신청 목록 조회
      */
     @GetMapping("/getPurchaseHistory")
