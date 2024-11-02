@@ -67,8 +67,8 @@ public class PurchaseService {
             throw new RuntimeException("이미 수락된 구매입니다.");
         }
 
-        purchaseHistory.setAccepted(true);
-        purchaseHistoryRepository.save(purchaseHistory);
+        // 구매 이력 삭제
+        purchaseHistoryRepository.delete(purchaseHistory);
     }
 
     /*
