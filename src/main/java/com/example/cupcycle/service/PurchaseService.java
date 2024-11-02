@@ -76,11 +76,6 @@ public class PurchaseService {
         PurchaseHistory purchaseHistory = purchaseHistoryRepository.findById(purchaseId)
                 .orElseThrow(() -> new RuntimeException("구매 이력을 찾을 수 없습니다."));
 
-        // 구매 거절 처리
-        if (purchaseHistory.isAccepted()) {
-            throw new RuntimeException("이미 수락된 구매는 거절할 수 없습니다.");
-        }
-
         // 학생과 상품 정보 가져옴
         Student student = purchaseHistory.getStudent();
         Product product = purchaseHistory.getProduct();
