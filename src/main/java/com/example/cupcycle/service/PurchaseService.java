@@ -81,9 +81,11 @@ public class PurchaseService {
             throw new RuntimeException("이미 수락된 구매는 거절할 수 없습니다.");
         }
 
+        // 학생과 상품 정보 가져옴
         Student student = purchaseHistory.getStudent();
         Product product = purchaseHistory.getProduct();
 
+        // 학생 리워드 복원
         student.setReward(student.getReward() + product.getPrice());
         studentRepository.save(student);
 
