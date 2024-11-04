@@ -1,6 +1,5 @@
 package com.example.cupcycle.controller;
 
-
 import com.example.cupcycle.entity.Cafe;
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.CafeService;
