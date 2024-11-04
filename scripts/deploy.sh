@@ -2,34 +2,15 @@ REPOSITORY=/home/ubuntu/app
 
 echo "> 현재 구동 중인 애플리케이션 pid 확인"
 
-# 현재 실행 중인 애플리케이션의 PID 확인
-CURRENT_PID=$(pgrep -fla java | grep hayan | awk '{print $1}')
+# 포트 8080을 점유 중인 모든 프로세스 종료
+CURRENT_PID=$(lsof -t -i:8080)
 
-echo "현재 구동 중인 애플리케이션 pid: $CURRENT_PID"
-
-# 현재 구동 중인 애플리케이션이 있으면 종료
 if [ -n "$CURRENT_PID" ]; then
-  echo "> kill -15 $CURRENT_PID"
-  kill -15 $CURRENT_PID
-
-  # 프로세스가 완전히 종료될 때까지 대기
-  for i in {1..10}; do
-    if ps -p $CURRENT_PID > /dev/null; then
-      echo "기존 애플리케이션 종료 중... 잠시 대기합니다."
-      sleep 2
-    else
-      echo "기존 애플리케이션이 정상적으로 종료되었습니다."
-      break
-    fi
-
-    # 만약 10번의 반복 내에 종료되지 않으면 강제 종료 시도
-    if [ $i -eq 10 ]; then
-      echo "기존 애플리케이션이 종료되지 않아 강제 종료합니다."
-      kill -9 $CURRENT_PID
-    fi
-  done
+  echo "현재 포트 8080을 점유 중인 프로세스 종료: $CURRENT_PID"
+  kill -9 $CURRENT_PID
+  sleep 5
 else
-  echo "현재 구동 중인 애플리케이션이 없으므로 종료하지 않습니다."
+  echo "8080 포트를 점유 중인 프로세스가 없습니다."
 fi
 
 echo "> 새 애플리케이션 배포"
