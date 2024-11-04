@@ -36,7 +36,6 @@ public class CafeController {
                 });
 
     }
-
     /*
      * 카페의 다회용컵 재고 상태 조회
      */
