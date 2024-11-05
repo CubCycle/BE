@@ -22,4 +22,5 @@ public class Product {
 
     @Column(nullable = false)
     private Integer price; // 상품 가격
+    
 }
