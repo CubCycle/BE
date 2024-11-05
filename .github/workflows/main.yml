@@ -35,25 +35,9 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew 
       
-    # Set environment variables from Secrets
-    - name: Set environment variables from Secrets
+    - name: Create application-prod.properties file from Secrets
       run: |
-        echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> $GITHUB_ENV
-        echo "SMTP_PORT=${{ secrets.SMTP_PORT }}" >> $GITHUB_ENV
-        echo "SMTP_USERNAME=${{ secrets.SMTP_USERNAME }}" >> $GITHUB_ENV
-        echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> $GITHUB_ENV
-        echo "MYSQL_URL=${{ secrets.MYSQL_URL }}" >> $GITHUB_ENV
-        echo "MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}" >> $GITHUB_ENV
-        echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> $GITHUB_ENV
-
-    # Verify environment variables (for debugging)
-    - name: Verify Environment Variables
-      run: |
-        echo "SMTP_HOST=$SMTP_HOST"
-        echo "SMTP_PORT=$SMTP_PORT"
-        echo "SMTP_USERNAME=$SMTP_USERNAME"
-        echo "MYSQL_URL=$MYSQL_URL"
-        echo "MYSQL_USERNAME=$MYSQL_USERNAME"
+        echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application-prod.properties
     
     - name: Build with Gradle (Prod Profile)
       run: ./gradlew clean build -Pprod
