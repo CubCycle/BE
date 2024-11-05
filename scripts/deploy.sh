@@ -27,4 +27,4 @@ chmod +x $JAR_NAME
 echo "> $JAR_NAME 실행 (prod profile)"
 
 # 새 애플리케이션 실행
-nohup java -jar -Dspring.profiles.active=prod -Duser.timezone=Asia/Seoul $JAR_NAME >> $REPOSITORY/nohup.out 2>&1 &
+nohup java -jar -Duser.timezone=Asia/Seoul $JAR_NAME >> $REPOSITORY/nohup.out 2>&1 &
