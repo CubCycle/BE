@@ -36,8 +36,9 @@ jobs:
       run: chmod +x gradlew 
       
     - name: Create application-prod.properties file from Secrets
-      run: |
-        echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application-prod.properties
+      run: touch ./src/main/resources/application-prod.properties
+          |
+          echo "${{secrets.APPLICATION.PROPERTIES}}" > ./src/main/resources/application-prod.properties
     
     - name: Build with Gradle (Prod Profile)
       run: ./gradlew clean build -Pprod
