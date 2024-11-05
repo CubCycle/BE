@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CafeController {
     private final CafeService cafeService;
-
     @GetMapping("/login")
     public ResponseEntity<ApiResponse<Cafe>> loginByNameAndCode(@RequestParam String name, @RequestParam int adminCode) {
         if(!cafeService.verifyAdminCode(adminCode))
