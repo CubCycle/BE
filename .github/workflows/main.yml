@@ -35,14 +35,11 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew 
       
-    - name: Set environment variables from Secrets
-      env:
-        SMTP_HOST: ${{ secrets.SMTP_HOST }}
-        SMTP_PORT: ${{ secrets.SMTP_PORT }}
-        SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
-        SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
-        MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
-        MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+    - name: Create application-prod.properties file from Secrets
+      run: |
+        echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application-prod.properties
+    
+    - name: Build with Gradle (Prod Profile)
       run: ./gradlew clean build -Pprod
 
     # 배포 패키지 준비
