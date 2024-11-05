@@ -34,7 +34,6 @@ public class Cup {
     private String qrcode;  // 고유 QR 코드 필드 추가
 
     private Timestamp borrowTime;
-
     private Timestamp returnTime;
 
     @Enumerated(EnumType.STRING)
