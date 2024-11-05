@@ -37,10 +37,10 @@ jobs:
       
     - name: Create application-prod.properties file from Secrets
       run: |
-        echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application-prod.properties
+        echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.properties
     
     - name: Build with Gradle (Prod Profile)
-      run: ./gradlew clean build -Pprod
+      run: ./gradlew clean build 
 
     # 배포 패키지 준비
     - name: Prepare Deployment Package
