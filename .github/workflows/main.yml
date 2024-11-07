@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 env:
-  S3_BUCKET_NAME: cupcycle
+  S3_BUCKET_NAME: cupcycle-2
 
 jobs:
   build:
@@ -59,10 +59,10 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-northeast-2
+        aws-region: us-east-1
 
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./cupcycle.zip s3://${{ env.S3_BUCKET_NAME }}/
+      run: aws s3 cp --region us-east-1 ./cupcycle.zip s3://${{ env.S3_BUCKET_NAME }}/
 
     # Deploy 단계
     - name: Deploy
@@ -71,8 +71,8 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         aws deploy create-deployment \
-          --application-name cupcycle \
+          --application-name cupcycle-deploy \
           --deployment-group-name cupcycle-group \
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=${{ env.S3_BUCKET_NAME }},bundleType=zip,key=cupcycle.zip \
-          --region ap-northeast-2
+          --region us-east-1
