@@ -3,6 +3,7 @@ package com.example.cupcycle.controller;
 import com.example.cupcycle.dto.ReturnStationDto;
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.ReturnStationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +13,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/returnStation")
+@RequiredArgsConstructor
 public class ReturnStationController {
     private final ReturnStationService returnStationService;
-
-    @Autowired
-    public ReturnStationController(ReturnStationService returnStationService) {
-        this.returnStationService = returnStationService;
-    }
 
     /*
     * 반납대의 재고 상태 조회
