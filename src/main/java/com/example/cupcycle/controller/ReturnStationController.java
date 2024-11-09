@@ -1,11 +1,14 @@
 package com.example.cupcycle.controller;
 
+import com.example.cupcycle.dto.ReturnStationDto;
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.ReturnStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/returnStation")
@@ -33,4 +36,12 @@ public class ReturnStationController {
         return ResponseEntity.ok(new ApiResponse<>(true, 1000, "요청에 성공하였습니다.",availableCups));
     }
 
+    /*
+    * 반납대의 목록 조회
+    */
+    @GetMapping("/getReturnStationList")
+    public ResponseEntity<ApiResponse<List<ReturnStationDto>>> getReturnStationList() {
+        List<ReturnStationDto> returnStations = returnStationService.getReturnStationList();
+        return ResponseEntity.ok(new ApiResponse<>(true, 1000, "요청에 성공하였습니다.", returnStations));
+    }
 }
