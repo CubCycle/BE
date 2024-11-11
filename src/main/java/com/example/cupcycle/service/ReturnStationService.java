@@ -37,9 +37,7 @@ public class ReturnStationService {
         return returnStations.stream().map(station -> new ReturnStationDto(
                 station.getLocation(),
                 station.getCurrentCup(),
-                station.getCurrentCup() >= MAX_CUPS ?
-                        ReturnStationDto.ReturnStationStatus.FULL :
-                        ReturnStationDto.ReturnStationStatus.AVAILABLE
+                station.getStatus().toString()
         )).collect(Collectors.toList());
     }
 }
