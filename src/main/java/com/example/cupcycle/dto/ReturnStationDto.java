@@ -10,8 +10,5 @@ import lombok.NoArgsConstructor;
 public class ReturnStationDto {
     private String location;
     private int currentCup;
-    private ReturnStationStatus status;
-    public enum ReturnStationStatus {
-        FULL, AVAILABLE;
-    }
+    private String status;
 }
