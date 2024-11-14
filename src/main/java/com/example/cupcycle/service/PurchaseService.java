@@ -88,9 +88,6 @@ public class PurchaseService {
     /*
      * 상품 신청 목록 조회
      */
-//    public List<PurchaseHistory> getPurchaseHistory() {
-//        return purchaseHistoryRepository.findAll();
-//    }
     public List<PurchaseHistoryDto> getPurchaseHistory() {
         List<PurchaseHistory> purchaseHistoryList = purchaseHistoryRepository.findAll();
         return purchaseHistoryList.stream().map(purchaseHistory -> {

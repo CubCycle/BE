@@ -40,4 +40,15 @@ public class ReturnStationService {
                 station.getStatus().toString()
         )).collect(Collectors.toList());
     }
+
+    /*
+     * 반납대 초기화
+     */
+    public void initReturnStation(int returnStationId) {
+        ReturnStation returnStation = returnStationRepository.findByReturnStationId(returnStationId);
+
+        returnStation.setCurrentCup(0);
+        returnStation.setStatus(ReturnStation.ReturnStationStatus.AVAILABLE);
+        returnStationRepository.save(returnStation);
+    }
 }
