@@ -40,4 +40,21 @@ public class ReturnStationController {
         List<ReturnStationDto> returnStations = returnStationService.getReturnStationList();
         return ResponseEntity.ok(new ApiResponse<>(true, 1000, "요청에 성공하였습니다.", returnStations));
     }
+
+    /*
+    * 반납대 초기화
+    */
+    @PostMapping("/initReturnStation")
+    public ResponseEntity<ApiResponse<Void>> initReturnStation(
+            @RequestParam int returnStationId) {
+        try {
+            returnStationService.initReturnStation(returnStationId);
+            return  ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new ApiResponse<>(true, 200, "반납대가 초기화 되었습니다."));
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>(false, 6001, e.getMessage()));
+        }
+    }
 }
