@@ -14,4 +14,6 @@ public interface ReturnStationRepository extends JpaRepository<ReturnStation, In
 
     // 목록 조회
     List<ReturnStation> findAll();
+
+    ReturnStation findByLocation(String location);
 }
