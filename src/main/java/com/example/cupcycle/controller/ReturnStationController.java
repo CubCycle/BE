@@ -57,6 +57,21 @@ public class ReturnStationController {
     }
 
     /*
+     * 반납대 id 반환
+     */
+    @GetMapping("/getId")
+    public ResponseEntity<ApiResponse<Integer>> getReturnStationId(@RequestParam String location) {
+        Integer returnStationId = returnStationService.getReturnStationId(location);
+
+        if (returnStationId == null) {  // 반납대를 찾을 수 없는 경우
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>(false,5001, "해당 위치의 반납대를 찾을 수 없습니다."));
+        }
+
+        return ResponseEntity.ok(new ApiResponse<>(true, 1000, "요청에 성공하였습니다.", returnStationId));
+    }
+
+    /*
     * 반납대 초기화
     */
     @PostMapping("/initReturnStation")
