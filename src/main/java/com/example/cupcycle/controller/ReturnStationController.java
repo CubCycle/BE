@@ -33,6 +33,21 @@ public class ReturnStationController {
     }
 
     /*
+     * 반납대 정보 조회
+     */
+    @GetMapping("/getInfo")
+    public ResponseEntity<ApiResponse<ReturnStationDto>> getReturnStations(@RequestParam int returnStationId) {
+        ReturnStationDto returnStation = returnStationService.getReturnStationInfo(returnStationId);
+
+        if (returnStation == null) {  // 반납대를 찾을 수 없는 경우
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>(false,5001, "해당 반납대를 찾을 수 없습니다."));
+        }
+
+        return ResponseEntity.ok(new ApiResponse<>(true, 1000, "요청에 성공하였습니다.", returnStation));
+    }
+
+    /*
     * 반납대의 목록 조회
     */
     @GetMapping("/getReturnStationList")
