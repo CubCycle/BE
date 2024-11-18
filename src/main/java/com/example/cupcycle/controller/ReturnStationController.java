@@ -1,7 +1,6 @@
 package com.example.cupcycle.controller;
 
 import com.example.cupcycle.dto.ReturnStationDto;
-import com.example.cupcycle.entity.ReturnStation;
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.ReturnStationService;
 import lombok.RequiredArgsConstructor;
