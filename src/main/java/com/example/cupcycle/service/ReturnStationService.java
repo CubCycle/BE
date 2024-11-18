@@ -42,6 +42,18 @@ public class ReturnStationService {
     }
 
     /*
+     * 반납대 정보 조회
+     */
+    public ReturnStationDto getReturnStationInfo(int returnStationId) {
+        ReturnStation returnStation = returnStationRepository.findById(returnStationId).orElse(null);
+
+        if (returnStation == null) {
+            return null;
+        }
+        return new ReturnStationDto(returnStation.getLocation(), returnStation.getCurrentCup(), returnStation.getStatus().toString());
+    }
+
+    /*
      * 반납대 초기화
      */
     public void initReturnStation(int returnStationId) {
