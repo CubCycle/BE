@@ -53,7 +53,7 @@ public class Student {
     }
 
     public void increaseCarbonReduction(double carbonReduction) {
-        this.carbonReduction += carbonReduction;
+        this.carbonReduction = Math.round((this.carbonReduction + carbonReduction) * 100.0) / 100.0;
     }
 
     public void increaseReward(int reward) {
