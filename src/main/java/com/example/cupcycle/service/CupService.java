@@ -1,14 +1,8 @@
 package com.example.cupcycle.service;
 
-import com.example.cupcycle.entity.Cafe;
-import com.example.cupcycle.entity.Cup;
-import com.example.cupcycle.entity.ReturnStation;
-import com.example.cupcycle.entity.Student;
+import com.example.cupcycle.entity.*;
 
-import com.example.cupcycle.repository.CafeRepository;
-import com.example.cupcycle.repository.CupRepository;
-import com.example.cupcycle.repository.ReturnStationRepository;
-import com.example.cupcycle.repository.StudentRepository;
+import com.example.cupcycle.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +20,7 @@ public class CupService {
     private final StudentRepository studentRepository;
     private final CupRepository cupRepository;
     private final ReturnStationRepository returnStationRepository;
+    private final ReturnEventRepository returnEventRepository;
 
     @Transactional
     public ApiResponse<String> borrowCup(int cafeId, int studentId, int cupId)
@@ -76,6 +71,12 @@ public class CupService {
         // 2. ReturnStation의 current_cup 증가
         returnStation.increaseCurrentCup();
         returnStationRepository.save(returnStation);
+
+        //3. 반납 이벤트 기록
+        ReturnEvent event = new ReturnEvent();
+        event.setReturnStationId(returnStationId);
+        returnEventRepository.save(event);
+
 
         return new ApiResponse<>(true, 1000, "반납이 완료되었습니다.");
     }
