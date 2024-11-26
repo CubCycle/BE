@@ -37,8 +37,8 @@ public class CupController {
     }
 
     @PostMapping("/updateCupStatus")
-    public ResponseEntity<ApiResponse<String>> updateCupStatusAndReward(@RequestParam int cupId) {
-        ApiResponse<String> response = cupService.updateCupStatusAndReward(cupId);
+    public ResponseEntity<ApiResponse<String>> updateCupStatusAndReward(@RequestParam int cafeId, @RequestParam int cupId) {
+        ApiResponse<String> response = cupService.updateCupStatusAndReward(cafeId, cupId);
         return ResponseEntity.status(response.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(response);
     }
 
