@@ -33,7 +33,6 @@ public class CafeController {
                     ApiResponse<Cafe> response = new ApiResponse<>(false, 4004, "로그인 실패: 해당 이름의 카페를 찾을 수 없습니다.");
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
                 });
-
     }
     /*
      * 카페의 다회용컵 재고 상태 조회

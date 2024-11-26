@@ -82,9 +82,12 @@ public class CupService {
     }
 
     @Transactional
-    public ApiResponse<String> updateCupStatusAndReward(int cupId)
+    public ApiResponse<String> updateCupStatusAndReward(int cafeId, int cupId)
     {
-        Cup cup = cupRepository.findById(cupId).orElse(null);
+        Cafe cafe = cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 카페를 찾을 수 없습니다."));
+        Cup cup = cupRepository.findById(cupId)
+                .orElseThrow(()->new IllegalArgumentException("해당 컵을 찾을 수 없습니다."));
 
         if(cup == null)
         {
@@ -96,6 +99,16 @@ public class CupService {
 
         //컵의 상태를 available로 변경
         updateCupStatus(cup, Cup.CupStatus.AVAILABLE);
+
+        // 1. Cafe의 availableCup 증가
+        if(cafe.getAvailableCups() >= 20) {
+            return new ApiResponse<>(false, 6001, "카페의 컵 재고가 꽉 차 있습니다.");
+        }
+
+        //카페의 재고 증가
+        cafe.increaseAvailableCups();
+
+
 
         //학생의 보상 포인트 증가
         Student student = cup.getStudent();

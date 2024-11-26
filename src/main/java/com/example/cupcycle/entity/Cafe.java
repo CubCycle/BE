@@ -43,5 +43,8 @@ public class Cafe {
         this.availableCups--;
     }
 
+    //카페의 컵 재고 1 증가
+    public void increaseAvailableCups() {this.availableCups++;}
+
 
 }
