@@ -107,8 +107,8 @@ public class CupService {
 
         //카페의 재고 증가
         cafe.increaseAvailableCups();
-
-
+        cup.setCafe(cafe);
+        cupRepository.save(cup);
 
         //학생의 보상 포인트 증가
         Student student = cup.getStudent();
