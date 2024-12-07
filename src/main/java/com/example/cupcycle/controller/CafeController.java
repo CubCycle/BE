@@ -23,7 +23,6 @@ public class CafeController {
             ApiResponse<Cafe> response = new ApiResponse<>(false, 4004, "로그인 실패: 잘못된 관리자 코드입니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
-
         return cafeService.findCafeByName(name)
                 .map(cafe -> {
                     ApiResponse<Cafe> response = new ApiResponse<>(true, 200, "로그인 성공", cafe);
