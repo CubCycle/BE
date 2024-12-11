@@ -125,6 +125,7 @@ public class CupService {
         return new ApiResponse<>(true, 1000, "컵 상태와 학생 보상이 성공적으로 업데이트되었습니다.");
     }
 
+    
     public Optional<Cup> findByQrCode(String qrCode) {
         return cupRepository.findCupByQrcode(qrCode);
     }
