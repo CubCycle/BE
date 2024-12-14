@@ -52,6 +52,10 @@ public class CupService {
         //3.Cup의 상태 변경 및 borrowTime 갱신
         updateCupStatus(cup, Cup.CupStatus.BORROWED);
 
+        // 4
+        cup.setStudent(student);
+        cupRepository.save(cup);
+
         return new ApiResponse<>(true, 1000, "대여가 완료되었습니다.");
     }
 
